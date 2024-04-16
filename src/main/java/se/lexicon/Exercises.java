@@ -1,6 +1,13 @@
 package se.lexicon;
 
 import se.lexicon.data.DataStorage;
+import se.lexicon.model.Gender;
+import se.lexicon.model.Person;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Exercises {
 
@@ -11,9 +18,9 @@ public class Exercises {
     */
     public static void exercise1(String message) {
         System.out.println(message);
-        //Write your code here
-
-        System.out.println("----------------------");
+        List<Person> erikList = storage.findMany(person -> person.getFirstName().equals("Erik"));
+        System.out.println("People with the first name 'Erik'");
+        erikList.forEach(System.out::println);
     }
 
     /*
@@ -21,19 +28,29 @@ public class Exercises {
      */
     public static void exercise2(String message) {
         System.out.println(message);
-        //Write your code here
 
-        System.out.println("----------------------");
+        List<Person> femalesList = storage.findMany(person -> person.getGender().equals(Gender.FEMALE));
+        System.out.println("Females in the collection:");
+        for (Person female : femalesList) {
+            String firstName = female.getFirstName();
+            System.out.println(firstName);
+        }
+
     }
 
     /*
         TODO:  3.	Find all who are born after (and including) 2000-01-01 using findMany().
-     */
+    */
+
+
     public static void exercise3(String message) {
         System.out.println(message);
-        //Write your code here
+        List<Person> bornAfter2000 = storage.findMany(person -> person.getBirthDate().isAfter(LocalDate.of(1999, 12, 31)));
+        System.out.println("People born after equal January 1, 2000. ");
+        for (Person person : bornAfter2000) {
+            System.out.println(person);
+        }
 
-        System.out.println("----------------------");
     }
 
     /*
@@ -41,10 +58,10 @@ public class Exercises {
      */
     public static void exercise4(String message) {
         System.out.println(message);
-        //Write your code here
-
-        System.out.println("----------------------");
-
+        Predicate<Person> findId123 = person -> person.getId() == 123;
+        Person personWithId123 = storage.findOne(findId123);
+        System.out.println("Person with Id 123: ");
+        System.out.println(personWithId123.getFirstName().concat(personWithId123.getLastName()));
     }
 
     /*
@@ -53,9 +70,10 @@ public class Exercises {
      */
     public static void exercise5(String message) {
         System.out.println(message);
-        //Write your code here
-
-        System.out.println("----------------------");
+        Predicate<Person> findId456= person -> person.getId()==456;
+        Function<Person, String> personToString= person -> "Name: " + person.getFirstName() + " " + person.getLastName() + "  born: " + person.getBirthDate();
+        String result = storage.findOneAndMapToString(findId456, personToString);
+        System.out.println(result);
     }
 
     /*
@@ -63,7 +81,7 @@ public class Exercises {
      */
     public static void exercise6(String message) {
         System.out.println(message);
-        //Write your code here
+
 
         System.out.println("----------------------");
     }
