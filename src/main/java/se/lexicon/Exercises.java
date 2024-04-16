@@ -70,8 +70,8 @@ public class Exercises {
      */
     public static void exercise5(String message) {
         System.out.println(message);
-        Predicate<Person> findId456= person -> person.getId()==456;
-        Function<Person, String> personToString= person -> "Name: " + person.getFirstName() + " " + person.getLastName() + "  born: " + person.getBirthDate();
+        Predicate<Person> findId456 = person -> person.getId() == 456;
+        Function<Person, String> personToString = person -> "Name: " + person.getFirstName() + " " + person.getLastName() + "  born: " + person.getBirthDate();
         String result = storage.findOneAndMapToString(findId456, personToString);
         System.out.println(result);
     }
@@ -81,9 +81,12 @@ public class Exercises {
      */
     public static void exercise6(String message) {
         System.out.println(message);
+        Predicate<Person> filteredNamesStartWithE = person -> person.getGender() == Gender.MALE && person.getFirstName().startsWith("E");
+        Function<Person, String> persontoString= person -> " Name: " + person.getFirstName() + " " + person.getLastName();
+        List<String> resultList= storage.findManyAndMapEachToString(filteredNamesStartWithE, persontoString);
+        System.out.println("Male people whose names start with 'E': ");
+        System.out.println(resultList);
 
-
-        System.out.println("----------------------");
     }
 
     /*
